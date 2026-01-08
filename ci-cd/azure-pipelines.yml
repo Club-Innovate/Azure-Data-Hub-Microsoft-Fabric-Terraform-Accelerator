@@ -1,0 +1,273 @@
+# ============================================================
+# Azure DevOps Pipeline
+# Microsoft Fabric Terraform Accelerator
+#
+# Design Principles:
+#  - Two Terraform roots:
+#       1) infra  - Azure + Fabric Capacity (AzAPI)
+#       2) fabric - Fabric Workspace, Lakehouse, etc.
+#  - No hard-coded GUIDs
+#  - Deterministic naming, dynamic lookup
+#  - Governance-first (OPA / Conftest)
+# ============================================================
+
+trigger:
+  branches:
+    include:
+      - main
+
+# ------------------------------------------------------------
+# Pipeline Agent
+# ------------------------------------------------------------
+pool:
+  vmImage: "ubuntu-latest"
+
+# ------------------------------------------------------------
+# Global Pipeline Variables
+# ------------------------------------------------------------
+variables:
+  terraformVersion: "1.5.7"
+  conftestVersion: "0.48.0"
+
+  # If true, policy violations fail the pipeline.
+  # Set to false to run in audit-only mode.
+  enforcePolicies: true
+
+  # Shared variable file at repo root
+  # Used by BOTH infra and fabric roots
+  sharedVarFile: "../terraform.tfvars"
+
+# ============================================================
+# STAGE 1: VALIDATION (NO CHANGES APPLIED)
+# ============================================================
+stages:
+  - stage: Validate
+    displayName: "Validate Terraform & Governance"
+    jobs:
+
+      # ------------------------------------------------------
+      # Validate INFRA root
+      # ------------------------------------------------------
+      - job: ValidateInfra
+        displayName: "Validate Infra (Azure + Fabric Capacity)"
+        steps:
+          - checkout: self
+
+          # Install Terraform
+          - task: TerraformInstaller@1
+            displayName: "Install Terraform"
+            inputs:
+              terraformVersion: "$(terraformVersion)"
+
+          # Terraform Init (infra)
+          - task: Bash@3
+            displayName: "Infra | Terraform Init"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra"
+              script: |
+                set -euo pipefail
+                terraform init
+
+          # Terraform Validate
+          - task: Bash@3
+            displayName: "Infra | Terraform Validate"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra"
+              script: |
+                set -euo pipefail
+                terraform validate
+
+          # Terraform Plan + JSON export (for policy)
+          - task: Bash@3
+            displayName: "Infra | Terraform Plan & Export plan.json"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra"
+              script: |
+                set -euo pipefail
+                terraform plan -out=tfplan -var-file="$(sharedVarFile)"
+                terraform show -json tfplan > plan.json
+
+          # OPA / Conftest policy evaluation (audit mode)
+          - task: Bash@3
+            displayName: "Infra | Governance (OPA / Conftest)"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)"
+              script: |
+                set -euo pipefail
+
+                # Install Conftest (idempotent)
+                if ! command -v conftest >/dev/null 2>&1; then
+                  wget -q https://github.com/open-policy-agent/conftest/releases/download/v$(conftestVersion)/conftest_$(conftestVersion)_Linux_x86_64.tar.gz
+                  tar xzf conftest_$(conftestVersion)_Linux_x86_64.tar.gz
+                  sudo mv conftest /usr/local/bin/
+                fi
+
+                # Run policies
+                if [ "$(enforcePolicies)" = "true" ]; then
+                  conftest test --policy policy infra/plan.json -o table
+                else
+                  conftest test --policy policy infra/plan.json -o table || true
+                fi
+
+                # Always write machine-readable report
+                conftest test --policy policy infra/plan.json -o json > infra/conftest-results.json || true
+
+          # Publish validation artifacts
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Infra Plan"
+            inputs:
+              PathtoPublish: "infra/tfplan"
+              ArtifactName: "infra-tfplan"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Infra Policy Report"
+            inputs:
+              PathtoPublish: "infra/conftest-results.json"
+              ArtifactName: "infra-policy-report"
+
+      # ------------------------------------------------------
+      # Validate FABRIC root
+      # ------------------------------------------------------
+      - job: ValidateFabric
+        displayName: "Validate Fabric (Workspace & Lakehouse)"
+        dependsOn: ValidateInfra
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: "Install Terraform"
+            inputs:
+              terraformVersion: "$(terraformVersion)"
+
+          - task: Bash@3
+            displayName: "Fabric | Terraform Init"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/fabric"
+              script: |
+                set -euo pipefail
+                terraform init
+
+          - task: Bash@3
+            displayName: "Fabric | Terraform Validate"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/fabric"
+              script: |
+                set -euo pipefail
+                terraform validate
+
+          - task: Bash@3
+            displayName: "Fabric | Terraform Plan & Export plan.json"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/fabric"
+              script: |
+                set -euo pipefail
+                terraform plan -out=tfplan -var-file="$(sharedVarFile)"
+                terraform show -json tfplan > plan.json
+
+          - task: Bash@3
+            displayName: "Fabric | Governance (OPA / Conftest)"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)"
+              script: |
+                set -euo pipefail
+
+                # Install Conftest (idempotent)
+                if ! command -v conftest >/dev/null 2>&1; then
+                  wget -q https://github.com/open-policy-agent/conftest/releases/download/v$(conftestVersion)/conftest_$(conftestVersion)_Linux_x86_64.tar.gz
+                  tar xzf conftest_$(conftestVersion)_Linux_x86_64.tar.gz
+                  sudo mv conftest /usr/local/bin/
+                fi
+
+                if [ "$(enforcePolicies)" = "true" ]; then
+                  conftest test --policy policy fabric/plan.json -o table
+                else
+                  conftest test --policy policy fabric/plan.json -o table || true
+                fi
+
+                conftest test --policy policy fabric/plan.json -o json > fabric/conftest-results.json || true
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Fabric Plan"
+            inputs:
+              PathtoPublish: "fabric/tfplan"
+              ArtifactName: "fabric-tfplan"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Fabric Policy Report"
+            inputs:
+              PathtoPublish: "fabric/conftest-results.json"
+              ArtifactName: "fabric-policy-report"
+
+# ============================================================
+# STAGE 2: APPLY INFRASTRUCTURE
+# ============================================================
+  - stage: ApplyInfra
+    displayName: "Apply Infra (Azure + Fabric Capacity)"
+    dependsOn: Validate
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: ApplyInfra
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: "Install Terraform"
+            inputs:
+              terraformVersion: "$(terraformVersion)"
+
+          - task: DownloadBuildArtifacts@1
+            displayName: "Download Infra Plan"
+            inputs:
+              artifactName: "infra-tfplan"
+              downloadPath: "$(System.DefaultWorkingDirectory)/artifacts"
+
+          - task: Bash@3
+            displayName: "Infra | Terraform Apply"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/infra"
+              script: |
+                set -euo pipefail
+                terraform init
+                terraform apply -auto-approve "$(System.DefaultWorkingDirectory)/artifacts/infra-tfplan/tfplan"
+
+# ============================================================
+# STAGE 3: APPLY FABRIC (POST-CAPACITY)
+# ============================================================
+  - stage: ApplyFabric
+    displayName: "Apply Fabric (Workspace & Lakehouse)"
+    dependsOn: ApplyInfra
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: ApplyFabric
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@1
+            displayName: "Install Terraform"
+            inputs:
+              terraformVersion: "$(terraformVersion)"
+
+          - task: DownloadBuildArtifacts@1
+            displayName: "Download Fabric Plan"
+            inputs:
+              artifactName: "fabric-tfplan"
+              downloadPath: "$(System.DefaultWorkingDirectory)/artifacts"
+
+          - task: Bash@3
+            displayName: "Fabric | Terraform Apply"
+            inputs:
+              targetType: inline
+              workingDirectory: "$(System.DefaultWorkingDirectory)/fabric"
+              script: |
+                set -euo pipefail
+                terraform init
+                terraform apply -auto-approve "$(System.DefaultWorkingDirectory)/artifacts/fabric-tfplan/tfplan"

@@ -1,0 +1,16 @@
+# PowerShell command line script to deploy infrastructure and fabric using Terraform
+# Make sure you have Terraform and Azure CLI installed and configured
+
+# Log in to Azure
+az login
+
+# Deploy by using Terraform via Terminal of the project folder or PowerShell
+INFRA
+.\terraform --% -chdir=infra init
+.\terraform --% -chdir=infra plan -out=tfplan -var-file=../terraform.tfvars
+.\terraform --% -chdir=infra apply tfplan
+
+FABRIC
+.\terraform --% -chdir=fabric init
+.\terraform --% -chdir=fabric plan -out=tfplan -var-file=../terraform.tfvars
+.\terraform --% -chdir=fabric apply tfplan

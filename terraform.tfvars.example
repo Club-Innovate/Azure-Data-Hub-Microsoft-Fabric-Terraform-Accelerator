@@ -1,0 +1,65 @@
+#############################################
+# terraform.tfvars.example
+#############################################
+# Copy this file to terraform.tfvars and customize for your organization
+
+# Azure credentials
+subscription_id = "<your-subscription-id>"
+tenant_id       = "<your-tenant-id>"
+client_id       = "<your-service-principal-app-id>"
+client_secret   = "<your-service-principal-secret>"
+
+# Organization and project identification
+prefix          = "sampleprefix"           # Lowercase, alphanumeric prefix for resource names
+company_name    = "SampleCompany"         # Company name for display names and descriptions
+project_name    = "SampleProject"         # Project name for tags and descriptions
+environment     = "dev"                   # Environment: dev, qa, prod
+location        = "westus"                # Azure region
+
+tags = {
+  project     = "SampleCompany-SampleProject"    # Will use company_name-project_name format
+  owner       = "sample-team"
+  cost_center = "SampleDept"                     # Your cost center/department
+}
+
+# Module toggles - enable/disable components as needed
+enable_networking        = true
+enable_log_analytics     = true
+enable_storage_medallion = true
+enable_key_vault         = true
+enable_purview           = false      # Optional governance
+enable_fabric            = true
+enable_data_factory      = true
+#---------------------------------------------------------------------------------------------------------------
+# Azure API Management is not a requirement for Fabric, but if you need it for your architecture, set to true
+# Provisioning takes a long time so be prepared to wait: 
+#   - Developer/standard tiers: ~30–40+ minutes 
+#   - Larger or multi-region instances: 45–75+ minutes or longer
+#---------------------------------------------------------------------------------------------------------------
+enable_api_management    = false 
+
+fabric_sku_name = "F64"               # F2, F4, F8, F64, F128, etc.
+
+# Fabric admin permissions
+# IMPORTANT: Use OBJECT IDs (not Group IDs - Fabric API does not support groups)
+fabric_admin_object_ids = [
+  "00000000-0000-0000-0000-000000000001", # Sample service principal object ID
+  #"00000000-0000-0000-0000-000000000002" # Optional: Sample user object ID
+]
+
+fabric_admin_upns = [
+  "adminuser@samplecompany.com"
+  # Add more valid UPNs or service principal object IDs as needed, but do not include group object IDs
+]
+
+# Optional: Override auto-generated names (leave commented to use defaults)
+# fabric_capacity_name          = "sampleprefixdevfabriccapacity"  # Auto: {prefix}{environment}fabriccapacity
+# fabric_workspace_display_name = "SampleCompany Dev Fabric Workspace"  # Auto: {company_name} {Environment} Fabric Workspace
+
+# Storage account options (if using existing account)
+# use_existing_storage_account  = false
+# existing_storage_account_name = ""
+
+# Or, if using an existing storage account:
+# use_existing_storage_account = true
+# existing_storage_account_name = "sampleprefixdevsa"  # use whatever the real name is
