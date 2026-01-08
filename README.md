@@ -188,7 +188,7 @@ This accelerator uses the free/open-source version of Terraform to provide a low
 
 ### Why Free Version?
 - No cost for users or organizations
-- All core IaC features are available
+- Most core IaC features are available
 - No dependency on paid Terraform Cloud or Enterprise features
 - Enables maximum accessibility and flexibility
 
