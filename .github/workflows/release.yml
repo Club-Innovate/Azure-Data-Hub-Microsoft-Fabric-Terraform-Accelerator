@@ -1,9 +1,15 @@
-name: Create Release
+name: Create GitHub Release
 
 on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release (e.g., v1.0.0)"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -12,12 +18,20 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Create GitHub Release from tag
+      - name: Pick tag
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create published GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: ${{ steps.vars.outputs.tag }}
           generate_release_notes: true
           draft: false
-          prerelease: false
-          make_latest: true
+          prerelease: ${{ contains(steps.vars.outputs.tag, '-') }}
