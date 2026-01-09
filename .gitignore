@@ -363,3 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 /terraform.exe
 /terraform.tfvars
+/terraform.tfvars
+/ControlsExport.csv
+/NonCompliantResourcesExport.csv
+/PolicyComplianceExport.csv
