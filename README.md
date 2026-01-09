@@ -147,10 +147,10 @@ conftest test --policy policy plan.json -o table
 
 ## Documentation
 
-- See `IMPLEMENTATION_SUMMARY.md` for a summary of recent changes
-- See `PARAMETERIZATION_GUIDE.md` for migration and usage guidance
-- See `VARIABLE_REFERENCE.md` for a full list of supported variables and patterns
-- See [HIPAA_GDPR_COMPLIANCE.md](./HIPAA_GDPR_COMPLIANCE.md) for compliance automation details
+- See [IMPLEMENTATION_SUMMARY.md](docs/IMPLEMENTATION_SUMMARY.md) for a summary of recent changes
+- See [PARAMETERIZATION_GUIDE.md](docs/PARAMETERIZATION_GUIDE.md) for migration and usage guidance
+- See [VARIABLE_REFERENCE.md](docs/VARIABLE_REFERENCE.md) for a full list of supported variables and patterns
+- See [HIPAA_GDPR_COMPLIANCE.md](docs/HIPAA_GDPR_COMPLIANCE.md) for compliance automation details
 
 ## Azure Service Principal and Admin Account Setup
 
