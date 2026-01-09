@@ -1,4 +1,4 @@
-name: Create GitHub Release
+name: Create Release
 
 on:
   push:
@@ -6,13 +6,16 @@ on:
       - "v*"
 
 permissions:
-  contents: write  # required to create a release
+  contents: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Create GitHub Release (auto notes)
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
