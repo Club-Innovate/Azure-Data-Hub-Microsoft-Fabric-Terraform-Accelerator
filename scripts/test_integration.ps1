@@ -119,3 +119,12 @@ if (-not $SkipDestroy) {
 } else {
   Write-Host "`n⚠️ SkipDestroy enabled. Resources remain deployed." -ForegroundColor Yellow
 }
+
+# At the end of the script, validate compliance for the deployed resource group
+
+# Get the resource group ID from Terraform output
+$resourceGroupId = & $Terraform -chdir="$InfraDir" output -raw resource_group_name
+$resourceGroupId = "/subscriptions/$($subscription_id)/resourceGroups/$resourceGroupId"
+
+Write-Host "\n=== VALIDATE COMPLIANCE POLICIES ===" -ForegroundColor Cyan
+& scripts/validate-compliance.ps1 -ScopeId $resourceGroupId

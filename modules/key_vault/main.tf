@@ -11,6 +11,12 @@ variable "log_analytics_workspace_id" {
   default     = null
 }
 
+variable "allowed_subnet_ids" {
+  type        = list(string)
+  description = "List of subnet IDs allowed to access the Key Vault."
+  default     = []
+}
+
 data "azurerm_client_config" "current" {}
 
 resource "random_string" "suffix" {
@@ -41,6 +47,13 @@ resource "azurerm_key_vault" "kv" {
     object_id = data.azurerm_client_config.current.object_id
 
     secret_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
+  }
+
+  network_acls {
+    default_action = "Deny"
+    bypass         = "AzureServices"
+    virtual_network_subnet_ids = var.allowed_subnet_ids
+    # You can add your subnet/service endpoint here for allowed access
   }
 
   tags = var.tags

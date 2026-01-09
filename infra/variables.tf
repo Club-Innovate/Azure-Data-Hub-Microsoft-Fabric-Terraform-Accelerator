@@ -157,3 +157,29 @@ variable "enable_data_factory" {
   type        = bool
   default     = true
 }
+
+#############################################
+# Compliance Policy Variables
+#############################################
+
+variable "enable_hipaa" {
+  type        = bool
+  description = "Enable HIPAA/HITECH compliance policy enforcement."
+  default     = false
+}
+
+variable "enable_gdpr" {
+  type        = bool
+  description = "Enable GDPR compliance policy enforcement."
+  default     = false
+}
+
+variable "compliance_scope" {
+  type        = string
+  description = "Scope for compliance policy assignment: 'resource_group' or 'resource'."
+  default     = "resource_group"
+  validation {
+    condition     = contains(["resource_group", "resource"], var.compliance_scope)
+    error_message = "compliance_scope must be 'resource_group' or 'resource'."
+  }
+}

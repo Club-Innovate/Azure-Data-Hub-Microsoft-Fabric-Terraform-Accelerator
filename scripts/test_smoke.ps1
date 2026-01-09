@@ -116,6 +116,15 @@ Run "FABRIC: conftest (table)" $RepoRoot $Conftest @("test","--policy",$PolicyDi
 Write-Host "`n=== FABRIC: conftest (json report) ===" -ForegroundColor Cyan
 & $Conftest test --policy $PolicyDir (Join-Path $FabricDir "plan.json") -o json | Out-File -Encoding utf8 (Join-Path $FabricDir "conftest-results.json")
 
+# At the end of the script, validate compliance for the deployed resource group (plan-only, so just show intended scope)
+
+$InfraDir  = Join-Path $RepoRoot "infra"
+$resourceGroupId = & $Terraform -chdir="$InfraDir" output -raw resource_group_name
+$resourceGroupId = "/subscriptions/$($subscription_id)/resourceGroups/$resourceGroupId"
+
+Write-Host "\n=== VALIDATE COMPLIANCE POLICIES (PLAN ONLY) ===" -ForegroundColor Cyan
+& scripts/validate-compliance.ps1 -ScopeId $resourceGroupId
+
 Write-Host "`n✅ Smoke test complete." -ForegroundColor Green
 Write-Host "Artifacts generated:"
 Write-Host " - infra\tfplan, infra\plan.json, infra\conftest-results.json"

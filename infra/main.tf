@@ -67,6 +67,7 @@ module "key_vault" {
   tags                = var.tags
 
   log_analytics_workspace_id = var.enable_log_analytics ? module.log_analytics[0].workspace_id : null
+  allowed_subnet_ids         = [module.networking[0].subnet_id]
 }
 
 #############################################
@@ -90,15 +91,29 @@ module "storage_medallion" {
 # Purview
 #############################################
 
+data "external" "purview_check" {
+  program = [
+    "pwsh",
+    "${path.module}/../scripts/check_purview.ps1",
+    "-SubscriptionId", var.subscription_id,
+    "-TenantId", var.tenant_id,
+    "-ClientId", var.client_id,
+    "-ClientSecret", var.client_secret
+  ]
+}
+
 module "purview" {
   source = "../modules/purview"
   count  = var.enable_purview ? 1 : 0
 
-  resource_group_name = module.resource_group.name
-  location            = var.location
-  prefix              = var.prefix
-  environment         = var.environment
-  tags                = var.tags
+  resource_group_name    = module.resource_group.name
+  location               = var.location
+  prefix                 = var.prefix
+  environment            = var.environment
+  tags                   = var.tags
+  purview_exists         = data.external.purview_check.result.purview_exists
+  purview_existing_name  = data.external.purview_check.result.purview_existing_name
+  purview_existing_rg    = data.external.purview_check.result.purview_existing_rg
 }
 
 #############################################
@@ -161,6 +176,27 @@ module "fabric_capacity" {
 }
 
 #############################################
+# Compliance Policy Modules
+#############################################
+# Conditionally assign compliance policies based on user input.
+
+module "compliance_hipaa" {
+  source   = "../modules/compliance/hipaa"
+  count    = var.enable_hipaa ? 1 : 0
+  scope_id = var.compliance_scope == "resource_group" ? module.resource_group.id : module.resource_group.id # Placeholder for resource-level logic
+  scope_type = var.compliance_scope
+  location   = var.location
+}
+
+module "compliance_gdpr" {
+  source   = "../modules/compliance/gdpr"
+  count    = var.enable_gdpr ? 1 : 0
+  scope_id = var.compliance_scope == "resource_group" ? module.resource_group.id : module.resource_group.id # Placeholder for resource-level logic
+  scope_type = var.compliance_scope
+  location   = var.location
+}
+
+#############################################
 # Outputs
 #############################################
 
@@ -171,4 +207,16 @@ output "resource_group_name" {
 output "fabric_capacity_name" {
   value       = local.fabric_capacity_name
   description = "Name of the Fabric capacity as seen in Fabric and used by the Fabric Terraform root."
+}
+
+output "purview_exists_debug" {
+  value = data.external.purview_check.result.purview_exists
+}
+
+resource "null_resource" "lockdown_storage" {
+  count = var.enable_hipaa ? 1 : 0
+  provisioner "local-exec" {
+    command = "pwsh ../scripts/lockdown_storage.ps1 -StorageAccountName ${module.storage_medallion[0].storage_account_name} -ResourceGroupName ${module.resource_group.name}"
+  }
+  depends_on = [module.storage_medallion]
 }

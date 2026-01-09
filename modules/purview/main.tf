@@ -27,8 +27,30 @@ variable "tags" {
   description = "Tags to apply to the Purview account."
 }
 
+variable "purview_exists" {
+  type    = bool
+  default = false
+}
+
+variable "purview_existing_name" {
+  type    = string
+  default = ""
+}
+
+variable "purview_existing_rg" {
+  type    = string
+  default = ""
+}
+
+resource "random_string" "unique" {
+  length  = 6
+  upper   = false
+  special = false
+}
+
 resource "azurerm_purview_account" "this" {
-  name                = "${var.prefix}-${var.environment}-purview"
+  count               = var.purview_exists ? 0 : 1
+  name                = "${var.prefix}-${var.environment}-purview-${random_string.unique.result}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
@@ -39,7 +61,6 @@ resource "azurerm_purview_account" "this" {
   tags = var.tags
 }
 
-output "id" {
-  description = "Purview account ID."
-  value       = azurerm_purview_account.this.id
+output "purview_status" {
+  value = var.purview_exists ? "Purview already exists: ${var.purview_existing_name} in resource group ${var.purview_existing_rg}" : "Purview created: ${azurerm_purview_account.this[0].name}"
 }

@@ -47,10 +47,13 @@ resource "azurerm_storage_account" "sa" {
   is_hns_enabled           = true  # Required for ADLS Gen2
 
   https_traffic_only_enabled = true
-  min_tls_version           = "TLS1_2"  
+  min_tls_version           = "TLS1_2"
 
-  # Keep disabled by default; enable only with an explicit exception tag.
-  public_network_access_enabled = true
+  # Staged security: Set to true for initial deployment, then set to false and re-apply after medallion filesystems are created.
+  public_network_access_enabled = true # <-- Set to false after initial apply for HIPAA compliance
+
+  # Remove network_rules for initial deployment
+  # Add network_rules after medallion filesystems are created for compliance
 
   tags = var.tags
 }
@@ -90,3 +93,9 @@ output "storage_account_name" {
   description = "Name of the medallion storage account."
   value       = azurerm_storage_account.sa.name
 }
+
+# NOTE:
+# For HIPAA/secure environments, set public_network_access_enabled = false and add network_rules after initial deployment.
+# 1. Deploy with public_network_access_enabled = true (default)
+# 2. After bronze/silver/gold filesystems are created, set to false and add network_rules for compliance, then re-apply.
+# This staged approach ensures successful creation of medallion tiers and compliance lock-down.

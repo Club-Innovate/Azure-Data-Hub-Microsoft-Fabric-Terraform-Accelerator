@@ -63,3 +63,10 @@ fabric_admin_upns = [
 # Or, if using an existing storage account:
 # use_existing_storage_account = true
 # existing_storage_account_name = "sampleprefixdevsa"  # use whatever the real name is
+
+# Compliance policy toggles and scope
+# Enable one or more to assign built-in Azure Policy initiatives for compliance
+
+enable_hipaa = true   # Set true to enable HIPAA/HITECH compliance
+enable_gdpr  = false   # Set true to enable GDPR compliance
+compliance_scope = "resource_group" # 'resource_group' or 'resource' (default: resource_group)

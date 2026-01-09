@@ -1,5 +1,18 @@
 # Azure Data Hub & Microsoft Fabric Terraform Accelerator
 
+## What's New
+
+### HIPAA & GDPR Compliance Automation
+- **Enable HIPAA/HITECH and GDPR compliance** with a single variable in your `terraform.tfvars`.
+- Automatically assigns built-in Azure Policy initiatives for HIPAA and GDPR at the resource group or resource level.
+- Diagnostic settings, network restrictions, and managed identity for remediation are all handled for you.
+- Post-deployment PowerShell script automates storage lockdown for HIPAA.
+- Validate compliance with the included PowerShell script for instant feedback.
+- **Compliance automation is a starting point:** Review assigned policies in the Azure Portal and use the validation script to identify additional remediation steps. Extend the solution as needed for your organization.
+- See [HIPAA_GDPR_COMPLIANCE.md](docs/HIPAA_GDPR_COMPLIANCE.md) for full details and usage examples.
+
+---
+
 This accelerator provisions a reference implementation of a Data & Analytics Hub
 on Azure and Microsoft Fabric using Infrastructure-as-Code (IaC) with Terraform.
 
@@ -137,6 +150,7 @@ conftest test --policy policy plan.json -o table
 - See `IMPLEMENTATION_SUMMARY.md` for a summary of recent changes
 - See `PARAMETERIZATION_GUIDE.md` for migration and usage guidance
 - See `VARIABLE_REFERENCE.md` for a full list of supported variables and patterns
+- See [HIPAA_GDPR_COMPLIANCE.md](./HIPAA_GDPR_COMPLIANCE.md) for compliance automation details
 
 ## Azure Service Principal and Admin Account Setup
 
@@ -211,7 +225,9 @@ https://developer.hashicorp.com/terraform/install
 - No need for additional paid automation tools
 - Demonstrates ingenuity and practical, low-cost DevOps for Azure and Microsoft Fabric
 
-> **This solution showcases how to achieve robust, enterprise-grade IaC deployments with zero licensing cost, using only free tools and built-in scripting capabilities.**
+> **The Accelerator showcases how to achieve robust, enterprise-grade IaC deployments with zero licensing cost, using only free tools and built-in scripting capabilities.**
+
+> **Note:** This solution provides a strong starting point for compliance automation, but is not a full end-to-end IaC and compliance guarantee. Users should review, validate, and extend the solution to meet their organization's specific requirements.
 
 ## Authors
 - Created by Hans Esquivel
