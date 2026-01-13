@@ -196,6 +196,10 @@ fabric_admin_upns = [
 
 > **Note:** Do not use group object IDs. Only user or service principal object IDs are supported for Fabric admin assignment.
 
+## Scripts Overview
+
+Scripts for deployment, automation, and management are provided in both `scripts/` and `fabric/scripts/` folders. For a full guide and usage examples, see [SCRIPTS_GUIDE.md](docs/SCRIPTS_GUIDE.md).
+
 ## Downloading Terraform (Free Version)
 
 This accelerator uses the free/open-source version of Terraform to provide a low/no-cost solution for Infrastructure-as-Code (IaC) deployments on Azure and Microsoft Fabric. The free version is fully capable for most enterprise scenarios and does not require any paid license or subscription.
