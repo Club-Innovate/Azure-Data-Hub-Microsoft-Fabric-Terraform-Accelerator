@@ -41,8 +41,10 @@ Quick reference for all parameterization variables in the Terraform Fabric Accel
 
 ## Documentation
 
-- See `PARAMETERIZATION_GUIDE.md` for migration steps
-- See `IMPLEMENTATION_SUMMARY.md` for summary of changes
+- See [PARAMETERIZATION_GUIDE.md](PARAMETERIZATION_GUIDE.md) for migration steps
+- See [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) for summary of changes
 
 ## Authors
-- Created by Hans Esquivel
+- Hans Esquivel
+
+**Start a Discussion to reach me.**

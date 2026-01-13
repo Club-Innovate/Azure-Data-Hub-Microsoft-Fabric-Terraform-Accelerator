@@ -110,7 +110,7 @@ All resource names, display names, and descriptions are generated from variables
 - `environment`: used in resource names and tags
 
 You can override auto-generated names for backward compatibility or migration.
-See `PARAMETERIZATION_GUIDE.md` and `VARIABLE_REFERENCE.md` for details.
+See [PARAMETERIZATION_GUIDE.md](docs/PARAMETERIZATION_GUIDE.md) and [VARIABLE_REFERENCE.md](docs/VARIABLE_REFERENCE.md) for details.
 
 ## Policy-as-Code (OPA / Conftest)
 
@@ -230,4 +230,6 @@ https://developer.hashicorp.com/terraform/install
 > **Note:** This solution provides a strong starting point for compliance automation, but is not a full end-to-end IaC and compliance guarantee. Users should review, validate, and extend the solution to meet their organization's specific requirements.
 
 ## Authors
-- Created by Hans Esquivel
+- Hans Esquivel
+
+**Start a Discussion to reach me.**

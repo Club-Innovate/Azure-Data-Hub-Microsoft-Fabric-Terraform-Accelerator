@@ -54,4 +54,6 @@ compliance_scope = "resource_group"
 For more details, see the main README and the compliance modules in `modules/compliance/`.
 
 ## Authors
-- Created by Hans Esquivel
+- Hans Esquivel
+
+**Start a Discussion to reach me.**

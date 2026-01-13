@@ -34,8 +34,10 @@ Copy `terraform.tfvars.example` and update organization-specific values. Run sta
 - Review planned changes before applying.
 
 ## Documentation
-- See `VARIABLE_REFERENCE.md` for all supported variables and patterns.
-- See `IMPLEMENTATION_SUMMARY.md` for a summary of changes.
+- See [VARIABLE_REFERENCE.md](VARIABLE_REFERENCE.md) for all supported variables and patterns.
+- See [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) for a summary of changes.
 
 ## Authors
-- Created by Hans Esquivel
+- Hans Esquivel
+
+**Start a Discussion to reach me.**

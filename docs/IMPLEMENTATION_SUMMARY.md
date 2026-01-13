@@ -23,8 +23,8 @@
 - Example configurations provided for multiple organizations.
 
 ### Migration Guidance
-- See `PARAMETERIZATION_GUIDE.md` for migration steps and strategies.
-- See `VARIABLE_REFERENCE.md` for variable details and naming patterns.
+- See [PARAMETERIZATION_GUIDE.md](PARAMETERIZATION_GUIDE.md) for migration steps and strategies.
+- See [VARIABLE_REFERENCE.md](VARIABLE_REFERENCE.md) for variable details and naming patterns.
 
 ### Next Steps
 - Parameterize scripts and CI/CD pipeline if needed.
@@ -41,4 +41,6 @@
 See the guide and reference docs for details on usage and migration.
 
 ## Authors
-- Created by Hans Esquivel
+- Hans Esquivel
+
+**Start a Discussion to reach me.**
