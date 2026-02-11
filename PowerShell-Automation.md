@@ -6,12 +6,12 @@ Microsoft PowerShell serves as the automation and orchestration layer for the Az
 
 **PowerShell** was chosen for automation because:
 
-- ✅ **Native Azure Integration**: Azure PowerShell modules for seamless cloud operations
-- ✅ **Cross-Platform**: Runs on Windows, macOS, and Linux (PowerShell 7+)
-- ✅ **Rich Object Model**: Work with .NET objects, not just text parsing
-- ✅ **Zero Cost**: Included with Windows, free download for other platforms
-- ✅ **Terraform Integration**: Perfect complement for pre/post-deployment tasks
-- ✅ **Enterprise Adoption**: Widely used in Windows-centric enterprises
+- **Native Azure Integration**: Azure PowerShell modules for seamless cloud operations
+- **Cross-Platform**: Runs on Windows, macOS, and Linux (PowerShell 7+)
+- **Rich Object Model**: Work with .NET objects, not just text parsing
+- **Zero Cost**: Included with Windows, free download for other platforms
+- **Terraform Integration**: Perfect complement for pre/post-deployment tasks
+- **Enterprise Adoption**: Widely used in Windows-centric enterprises
 
 **Reference**: [Microsoft PowerShell Documentation](https://learn.microsoft.com/powershell/)
 
@@ -147,13 +147,13 @@ Recommendations:
 ```
 
 **Test Flow**:
-1. ✅ Validate repository structure
-2. ✅ Terraform init (infra + fabric)
-3. ✅ Terraform plan (infra + fabric)
-4. ✅ Terraform apply (infra + fabric)
-5. ✅ Policy validation (Conftest)
-6. ✅ Compliance check
-7. ✅ Terraform destroy (unless -SkipDestroy)
+1. Validate repository structure
+2. Terraform init (infra + fabric)
+3. Terraform plan (infra + fabric)
+4. Terraform apply (infra + fabric)
+5. Policy validation (Conftest)
+6. Compliance check
+7. Terraform destroy (unless -SkipDestroy)
 
 **When to Run**:
 - CI/CD pipeline (automated testing)
@@ -256,13 +256,13 @@ Recommendations:
 Follow PowerShell verb conventions:
 
 ```powershell
-# ✅ Good
+# Good
 Get-AzResource
 Set-AzStorageAccount
 New-AzResourceGroup
 Remove-AzKeyVault
 
-# ❌ Bad
+# Bad
 Fetch-AzResource
 Change-AzStorageAccount
 Create-AzResourceGroup
@@ -348,14 +348,14 @@ catch {
 ### 6. Use Secure String for Secrets
 
 ```powershell
-# ✅ Good: Secure string
+# Good: Secure string
 $securePassword = ConvertTo-SecureString -String $PlainTextPassword -AsPlainText -Force
 
-# ✅ Better: From Key Vault
+# Better: From Key Vault
 $secret = Get-AzKeyVaultSecret -VaultName "my-vault" -Name "db-password"
 $securePassword = $secret.SecretValue
 
-# ❌ Bad: Plain text
+# Bad: Plain text
 $password = "MyPassword123"
 ```
 
