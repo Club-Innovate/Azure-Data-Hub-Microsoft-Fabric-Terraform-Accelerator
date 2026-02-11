@@ -17,7 +17,7 @@ Welcome to the comprehensive guide for the Azure Data Hub & Microsoft Fabric Ter
 9. [CI/CD Pipeline](#cicd-pipeline)
 10. [Advanced Usage](#advanced-usage)
 11. [Troubleshooting](#troubleshooting)
-12. [Best Practices](#best-practices)
+12. [Best Practices](/best-practices.md)
 13. [Contributing](#contributing)
 14. [References](#references)
 
