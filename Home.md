@@ -8,18 +8,18 @@ Welcome to the comprehensive guide for the Azure Data Hub & Microsoft Fabric Ter
 
 1. [Introduction](#introduction)
 2. [Architecture Overview](#architecture-overview)
-3. [Getting Started](Getting-Started.md)
-4. [Core Components](Core-Components.md)
+3. <a href="Getting-Started.md" target="_blank">Getting Started</a>
+4. <a href="Core-Components.md" target="_blank">Core Components</a>
 5. [Terraform Modules Reference](#terraform-modules-reference)
-6. [PowerShell Automation](PowerShell-Automation.md)
-7. [Compliance & Security](Compliance-and-Security.md)
-8. [Policy-as-Code with OPA](Policy-as-Code-with-OPA.md)
+6. <a href="PowerShell-Automation.md" target="_blank">PowerShell Automation</a>
+7. <a href="Compliance-and-Security.md" target="_blank">Compliance & Security</a>
+8. <a href="Policy-as-Code-with-OPA.md" target="_blank">Policy-as-Code with OPA</a>
 9. [CI/CD Pipeline](#cicd-pipeline)
 10. [Advanced Usage](#advanced-usage)
 11. [Troubleshooting](#troubleshooting)
-12. [Best Practices](Best-Practices.md)
+12. <a href="Best-Practices.md" target="_blank">Best Practices</a>
 13. [Contributing](#contributing)
-14. [References](References.md)
+14. <a href="References.md" target="_blank">References</a>
 
 ---
 
@@ -61,7 +61,7 @@ The accelerator implements a modern **Medallion Architecture** (Bronze/Silver/Go
 │                     Microsoft Fabric Layer                       │
 │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────┐   │
 │  │ Fabric Capacity  │  │ Fabric Workspace │  │  Lakehouses  │   │
-│  └──────────────────┘  └────────��─────────┘  └──────────────┘   │
+│  └──────────────────┘  └──────────────────┘  └──────────────┘   │
 └──────────────────────────────────────────────────────────────────┘
                               ▲
                               │ OneLake Integration
@@ -149,7 +149,7 @@ terraform/
 │   ├── key-vault/           # Azure Key Vault, Secrets
 │   ├── purview/             # Azure Purview, Data Governance
 │   ├── fabric-capacity/     # Microsoft Fabric Capacity
-│   ├─��� fabric-workspace/    # Microsoft Fabric Workspaces
+│   ├── fabric-workspace/    # Microsoft Fabric Workspaces
 │   ├── api-management/      # Azure API Management
 │   ├── monitoring/          # Log Analytics, Application Insights
 │   └── compliance/          # Azure Policy, HIPAA/GDPR
@@ -2036,6 +2036,4 @@ git push origin feature/your-feature-name
 
 **Required Tools**:
 - [Terraform](https://www.terraform.io/downloads) >= 1.6.0
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) >= 2.50.0
-- [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell) >= 7.3
-- [Conftest](https://www.conftest.dev/) >= 
+- [Azure CLI
