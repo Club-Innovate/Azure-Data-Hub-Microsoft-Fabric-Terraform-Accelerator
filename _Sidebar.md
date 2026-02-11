@@ -1,12 +1,10 @@
-# Wiki Navigation
-
-Welcome to the Azure Data Hub & Microsoft Fabric Terraform Accelerator Wiki!
+# Welcome to the Azure Data Hub & Microsoft Fabric Terraform Accelerator Wiki!
 
 This wiki provides comprehensive documentation for deploying and managing enterprise-grade data analytics infrastructure on Microsoft Azure and Microsoft Fabric using HashiCorp Terraform and PowerShell.
 
 ---
 
-## 📚 Wiki Pages
+## Wiki Pages
 
 ### Getting Started
 - **[Home](Home.md)** - Introduction, architecture overview, and technology stack
@@ -24,7 +22,7 @@ This wiki provides comprehensive documentation for deploying and managing enterp
 
 ---
 
-## 🚀 Quick Links
+## Quick Links
 
 ### For New Users
 1. [Introduction](Home.md#introduction) - Understand what this accelerator does
@@ -48,7 +46,7 @@ This wiki provides comprehensive documentation for deploying and managing enterp
 
 ---
 
-## 🎯 Key Features
+## Key Features
 
 ✅ **Rapid Deployment** - Deploy complete data analytics infrastructure in minutes  
 ✅ **Fully Parameterized** - Multi-tenant ready with zero hardcoded values  
@@ -60,7 +58,7 @@ This wiki provides comprehensive documentation for deploying and managing enterp
 
 ---
 
-## 📖 Documentation Structure
+## Documentation Structure
 
 ```
 Wiki
@@ -76,7 +74,7 @@ Wiki
 
 ---
 
-## 🔗 External Resources
+## External Resources
 
 - **Repository**: [GitHub](https://github.com/Club-Innovate/Azure-Data-Hub-Microsoft-Fabric-Terraform-Accelerator)
 - **HashiCorp Terraform**: [Documentation](https://developer.hashicorp.com/terraform/docs)
@@ -87,7 +85,7 @@ Wiki
 
 ---
 
-## 📧 Support & Contributing
+## Support & Contributing
 
 - **Issues**: [GitHub Issues](https://github.com/Club-Innovate/Azure-Data-Hub-Microsoft-Fabric-Terraform-Accelerator/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Club-Innovate/Azure-Data-Hub-Microsoft-Fabric-Terraform-Accelerator/discussions)
@@ -100,4 +98,4 @@ Wiki
 
 ---
 
-[🏠 Return to Repository](https://github.com/Club-Innovate/Azure-Data-Hub-Microsoft-Fabric-Terraform-Accelerator)
+[Return to Repository](https://github.com/Club-Innovate/Azure-Data-Hub-Microsoft-Fabric-Terraform-Accelerator)
