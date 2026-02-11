@@ -8,7 +8,7 @@ Welcome to the comprehensive guide for the Azure Data Hub & Microsoft Fabric Ter
 
 1. [Introduction](#introduction)
 2. [Architecture Overview](#architecture-overview)
-3. [Getting Started](getting-started.md)
+3. [Getting Started](/getting-started.md)
 4. [Core Components](core-components.md)
 5. [Terraform Modules Reference](#terraform-modules-reference)
 6. [PowerShell Automation](powershell-automation.md)
