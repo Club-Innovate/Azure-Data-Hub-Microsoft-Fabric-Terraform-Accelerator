@@ -8,18 +8,18 @@ Welcome to the comprehensive guide for the Azure Data Hub & Microsoft Fabric Ter
 
 1. [Introduction](#introduction)
 2. [Architecture Overview](#architecture-overview)
-3. [Getting Started](/getting-started.md)
-4. [Core Components](core-components.md)
+3. [Getting Started](Getting-Started.md)
+4. [Core Components](Core-Components.md)
 5. [Terraform Modules Reference](#terraform-modules-reference)
-6. [PowerShell Automation](powershell-automation.md)
-7. [Compliance & Security](compliance--security.md)
-8. [Policy-as-Code with OPA](policy-as-code-with-opa.md)
+6. [PowerShell Automation](PowerShell-Automation.md)
+7. [Compliance & Security](Compliance-and-Security.md)
+8. [Policy-as-Code with OPA](Policy-as-Code-with-OPA.md)
 9. [CI/CD Pipeline](#cicd-pipeline)
 10. [Advanced Usage](#advanced-usage)
 11. [Troubleshooting](#troubleshooting)
-12. [Best Practices](best-practices.md)
+12. [Best Practices](Best-Practices.md)
 13. [Contributing](#contributing)
-14. [References](references.md)
+14. [References](References.md)
 
 ---
 
