@@ -31,13 +31,13 @@ The **Azure Data Hub & Microsoft Fabric Terraform Accelerator** is a comprehensi
 
 ### Key Features
 
-- 🚀 **Rapid Deployment**: Deploy complete data analytics infrastructure in minutes, not weeks
-- 🔧 **Fully Parameterized**: Multi-tenant ready with no hardcoded values
-- 🛡️ **Compliance Automation**: Built-in HIPAA/HITECH and GDPR compliance enforcement
-- 📋 **Policy-as-Code**: Automated governance with Open Policy Agent (OPA) and Conftest
-- 🏗️ **Modular Architecture**: Choose only the components you need
-- 💰 **Zero Licensing Cost**: Built entirely with free tools (Terraform, PowerShell, Azure CLI)
-- 🔄 **CI/CD Ready**: Includes Azure DevOps pipeline templates
+- **Rapid Deployment**: Deploy complete data analytics infrastructure in minutes, not weeks
+- **Fully Parameterized**: Multi-tenant ready with no hardcoded values
+- **Compliance Automation**: Built-in HIPAA/HITECH and GDPR compliance enforcement
+- **Policy-as-Code**: Automated governance with Open Policy Agent (OPA) and Conftest
+- **Modular Architecture**: Choose only the components you need
+- **Zero Licensing Cost**: Built entirely with free tools (Terraform, PowerShell, Azure CLI)
+- **CI/CD Ready**: Includes Azure DevOps pipeline templates
 
 ### Target Audience
 
